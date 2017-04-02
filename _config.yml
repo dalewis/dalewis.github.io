@@ -1,0 +1,16 @@
+title: Darren Lewis blog
+email:
+description: "Thoughts on AI, Computer Science, and Life"
+baseurl: ""
+url: "dalewis.github.io"
+twitter_username: darrenlew
+github_username:  dalewis
+
+# Build settings
+markdown: kramdown
+theme: minima
+highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
