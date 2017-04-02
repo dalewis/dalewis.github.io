@@ -4,7 +4,7 @@ title:  "Exploring and Thwarting Adversarial Examples in MNIST"
 excerpt: "In this post I explore adversarial examples in the popular
 handwritten digit recognition dataset MNIST, and also present a simple
 technique for thwarting such adversarial examples."
-date:   2017-04-02 00:12:00 +0900
+date:   2017-04-03 00:08:00 +0900
 mathjax: true
 ---
 
