@@ -4,7 +4,7 @@ title:  "Exploring and Thwarting Adversarial Examples in MNIST"
 excerpt: "In this post I explore adversarial examples in the popular
 handwritten digit recognition dataset MNIST, and also present a simple
 technique for thwarting such adversarial examples."
-date:   2017-04-02 00:08:00 +0900
+date:   2017-04-02 00:12:00 +0900
 mathjax: true
 ---
 
@@ -64,7 +64,7 @@ mathjax: true
 </style>
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/examples_with_noise_0.05.png">
+  <img src="/assets/mnist_adv/examples_with_noise_0.05.png">
   <div class="thecap">
     Are you sure those numbers are what you think they are? Images on the left of each set are original images, middle images are amplified depictions of the noise, and images on the right are crafted adversarial images (original+noise). Classification probabilities are showed for each image, on a simple conv net which gets greater than 99.25% accuracy on MNIST. The maximum noise limit here is 0.05.</div>
 </div>
@@ -82,7 +82,7 @@ describing the problem [here](https://karpathy.github.io/2015/03/30/breaking-con
 But the way I like to think of it is simpler - neural net image classifiers operate in an extremely high-dimensional space, but the divisions between classes are too "sharp" in that high-dimensional space, so it's easy to push the classifier away from the actual class and towards a wrong "adversarial" class. On the other hand, humans have a "fuzzier" classification model that is obviously much more resilient to these tiny changes, because our visual system "averages" them out. Below is a simple visualization for how to think about the "sharpness" of a classifier, with the image on the left showing a much "sharper" classifier than the image on the right.
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/classification_visualization.png">
+  <img src="/assets/mnist_adv/classification_visualization.png">
   <div class="thecap">
     3D visualization of high dimensional classification "sharpness" for two ImageNet classes, "panda" and "gibbon". On the left, the classifier has a very sharp classification range that hugs the line, which represents the "true" class projection. On the right, the classifier has a fuzzier classification range.</div>
 </div>
@@ -103,7 +103,7 @@ followed by a fully connected layer, and on the right is a fully
 convolutional model (i.e., no fully connected layers).
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/mnist_models.png"
+  <img src="/assets/mnist_adv/mnist_models.png"
    height="600px">
   <div class="thecap">
     A convolutional net ending with a fully-connected layer (left), and a fully convolutional neural net (right) for classifying MNIST images.
@@ -113,7 +113,7 @@ convolutional model (i.e., no fully connected layers).
 The idea, then, is to modify the above simple models by adding an input distortion layer. Since the input for MNIST is a 28x28 pixel image (or equivalently, a length 784 vector if we flatten it out), the simplest way to distort the input is by adding multivariate Gaussian noise to each pixel (note that the noise is multivariate, because we want to distort each dimension independently rather than move all pixel values by the same random amount). Frameworks like Tensorflow, Torch, and Theano are actually general computational graph frameworks and thus allow for arbitrary layers in neural nets other than the standard convolutional, max pooling, and fully-connected layers that we're familiar with. And since once you design your own layer in a modular way, you can stick it anywhere in the net, I decided to experiment with adding multivariate Gaussian noise not only after the input, but also after the convolutional layers and the final fully-connected layer. The idea is to "smooth" out the activations like in the earlier visualization. Below is the model structure:
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/distortion_layers.png"
+  <img src="/assets/mnist_adv/distortion_layers.png"
    height="800px">
   <div class="thecap">
     A conv net showing Gaussian distortion layers after input,
@@ -159,7 +159,7 @@ Sum = 1.0
 Remember that the loss for a single example is $$L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)$$, or $$-\log({softmax({f_{y_i}})})$$. The reason the loss is the negative log is apparent if we look at a graph:
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/lnx.png" height="300px">
+  <img src="/assets/mnist_adv/lnx.png" height="300px">
   <div class="thecap">
   </div>
 </div>
@@ -293,7 +293,7 @@ standard deviation of 0.50 on each dimension).
 First, I was curious if the net would be able to learn on noisy inputs, but still perform well on clean test inputs. Below are examples of distorted MNIST images with different levels of noise. The noise level corresponds to the standard deviation of the normal distribution for all dimensions of the input (i.e., each dimension is using the same size normal distribution, but each dimension samples from that same sized normal distribution independently of all other dimensions).
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/input_distortion.png">
+  <img src="/assets/mnist_adv/input_distortion.png">
   <div class="thecap">
     Different levels of multivariate Gaussian noise applied to MNIST inputs.
   </div>
@@ -414,7 +414,7 @@ So what does it all mean? Is this simple technique really all that's needed to c
 Well, first it's important to understand that while we can provide resilience against adversarial examples *on average*, that doesn't mean that the model is completely resilient to adversarial examples. If our goal is to just find one really good adversarial example, then we can usually do so (especially with our efficient gradient computations described above). For example, here are two that I found for the *input - d0.30 - conv1 - d0.30 - conv2 - d0.30 - fc - softmax* model from above, which had an average target score of zero in the initial run:
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/exotic_examples.png">
+  <img src="/assets/mnist_adv/exotic_examples.png">
   <div class="thecap">
     A very strong adversarial example and a reasonably strong adversarial example found for a seemingly impervious model.
   </div>
@@ -430,7 +430,7 @@ Let's take a look at another model from above: *input - d0.30 - conv1 - conv2 - 
 
 <a id="exotic_examples_input_0_30_fc_0_30" />
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/exotic_examples_input_0.30_fc_0.30.png">
+  <img src="/assets/mnist_adv/exotic_examples_input_0.30_fc_0.30.png">
   <div class="thecap">
     Adversarial examples found for a conv net with distortion after the input layer and final fully-connected layer.
   </div>
@@ -448,7 +448,7 @@ Another important difference between the human visual system and convolutional n
 
 <a id="exotic_examples_input_0_30_fc_0_30" />
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/exotic_examples_input_0.30_fc_0.30_inverted.png">
+  <img src="/assets/mnist_adv/exotic_examples_input_0.30_fc_0.30_inverted.png">
   <div class="thecap">
     Adversarial examples found for a conv net with distortion after the input layer and final fully-connected layer.
   </div>
@@ -457,7 +457,7 @@ Another important difference between the human visual system and convolutional n
 The noise in the adversarial examples now looks much more noticeable, and most humans would not be fooled into thinking the images are unmodified. The reason has to do with something called *lightness constancy*, whereby the human visual system averages over total illumination in a scene when perceiving different levels of brightness. It's the source for a number of great visual illusions, one of which is shown below, and more which [can be seen here](http://www.cns.nyu.edu/~david/courses/perception/lecturenotes/brightness-contrast/brightness-contrast.html).
 
 <div class="imgcap">
-  <img src="/assets/MNIST_adv/brightness_constancy.jpg"
+  <img src="/assets/mnist_adv/brightness_constancy.jpg"
    height="400px">
   <div class="thecap">
     Example of optical illusion caused by lightness constancy in human visual system. But conv net don't care. Credit to: <a href="http://www.cns.nyu.edu/~david/courses/perception/lecturenotes/brightness-contrast/brightness-contrast.html">Professor David Heeger from NYU</a>.
