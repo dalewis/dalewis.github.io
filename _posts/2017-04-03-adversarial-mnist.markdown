@@ -104,7 +104,31 @@ convolutional model (i.e., no fully connected layers).
   </div>
 </div>
 
-The idea, then, is to modify the above simple models by adding an input distortion layer. Since the input for MNIST is a 28x28 pixel image (or equivalently, a length 784 vector if we flatten it out), the simplest way to distort the input is by adding multivariate Gaussian noise to each pixel (note that the noise is multivariate, because we want to distort each dimension independently rather than move all pixel values by the same random amount). Frameworks like Tensorflow, Torch, and Theano are actually general computational graph frameworks and thus allow for arbitrary layers in neural nets other than the standard convolutional, max pooling, and fully-connected layers that we're familiar with. And since once you design your own layer in a modular way, you can stick it anywhere in the net, I decided to experiment with adding multivariate Gaussian noise not only after the input, but also after the convolutional layers and the final fully-connected layer. The idea is to "smooth" out the activations like in the earlier visualization. Below is the model structure:
+The idea, then, is to modify the above simple models by adding an input distortion layer. Since the input for MNIST is a 28x28 pixel image (or equivalently, a length 784 vector if we flatten it out), the simplest way to distort the input is by adding multivariate Gaussian noise to each pixel (note that the noise is multivariate, because we want to distort each dimension independently rather than move all pixel values by the same random amount).
+
+Backing up for a moment, what is a "multivariate Gaussian noise layer"? Well, the Gaussian distribution is just another name for the [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution), informally known as the "bell curve". Usually we think of the Gaussian distribution in a one-dimensional case, like this:
+
+<div class="imgcap">
+  <img src="/assets/mnist_adv/normal_distribution.png">
+  <div class="thecap">
+    Different normal distributions. The red one is the standard normal distribution with mean 0 and standard deviation of 1. Image credit: <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Normal_Distribution_PDF.svg/525px-Normal_Distribution_PDF.svg.png">https://en.wikipedia.org/wiki/Normal_distribution</a>
+  </div>
+</div>
+
+If we "sample" from the this distribution, we are choosing random numbers such that their distribution is the same as the normal distribution, i.e., clustered around the mean and then spreading out as you get farther from the center. We can extend this concept to multiple dimensions, which is what is meant by the [multivariate normal distribution](https://en.wikipedia.org/wiki/Multivariate_normal_distribution). All we need to know is the mean and variance (and by extension, standard deviation) for each dimension, and then we just choose a random number according to that distribution.
+
+<div class="imgcap">
+  <img src="/assets/mnist_adv/multivariate_normal.png"
+   style="max-height: 400px;">
+  <div class="thecap">
+    A two-dimensional multivariate normal distribution. Both dimensions are sampling from a mean of 0, but with different variances. Image credit: <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution#/media/File:MultivariateNormal.png">https://en.wikipedia.org/wiki/Multivariate_normal_distribution</a>
+  </div>
+</div>
+
+
+In my case, I went with the simplest possible choice and used a normal distribution with a mean of zero and the same variance for every dimension. If we then sample from this multivariate distribution, the end result is that we have noise of the same size as our input images, but it's not completely random noise, it's noise specifically from the distribution we want (i.e., zero-centered and a normal distribution for each of the input dimensions).
+
+Frameworks like Tensorflow, Torch, and Theano are actually general computational graph frameworks and thus allow for arbitrary layers in neural nets other than the standard convolutional, max pooling, and fully-connected layers that we're familiar with. And since once you design your own layer in a modular way, you can stick it anywhere in the net, I decided to experiment with adding multivariate Gaussian noise not only after the input, but also after the convolutional layers and the final fully-connected layer. The idea is to "smooth" out the activations like in the earlier visualization. Below is the final model structure:
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/distortion_layers.png"
