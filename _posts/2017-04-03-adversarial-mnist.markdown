@@ -75,7 +75,7 @@ mathjax: true
 
 ### Abstract
 
-The grayscale MNIST handwritten digits dataset, while much smaller and simpler than ImageNet, is still very susceptible to adversarial examples. Adding multivariate Gaussian noise layers into the neural net at various layers is one way of making it more difficult to craft adversarial examples, often with negligible impact on model performance.
+The grayscale MNIST handwritten digits dataset, while much smaller and simpler than ImageNet, is still very susceptible to adversarial examples, which are specifically crafted images meant to trick neural nets. Adding multivariate Gaussian noise layers into the neural net at various layers is one way of making it more difficult to craft adversarial examples, often with negligible impact on model performance.
 
 ### Intro
 
