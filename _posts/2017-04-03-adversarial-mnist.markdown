@@ -61,6 +61,10 @@ mathjax: true
     width: 100%;
   }
 
+  .mono {
+    font-family: monospace;
+  }
+
 </style>
 
 <div class="imgcap">
@@ -209,10 +213,11 @@ loss_{batch} = -\frac{1}{D} \left(
 \right)
 $$
 
-This means our `adversarial_grad` above gives us the gradient with respect to the mini-batch, with influence from every sample in the batch, whereas what we really want to do is figure out the best perturbation to make *for each individual example*. Goodfellow wrote a paper about this problem in [Efficient Per-Example Gradient Computations](https://arxiv.org/abs/1510.01799), explaining that the simplest brute force approach to solving this problem is to just compute the gradient D times, each for a batch size of 1, but for our case, since we control the model directly, there's actually a super simple solution. All we have to do is split up the loss into two steps:
+This means our <span class="mono">adversarial_grad</span> above gives us the gradient with respect to the mini-batch, with influence from every sample in the batch, whereas what we really want to do is figure out the best perturbation to make *for each individual example*. Goodfellow wrote a paper about this problem in [Efficient Per-Example Gradient Computations](https://arxiv.org/abs/1510.01799), explaining that the simplest brute force approach to solving this problem is to just compute the gradient D times, each for a batch size of 1, but for our case, since we control the model directly, there's actually a super simple solution. All we have to do is split up the loss into two steps:
 
 ```python
-cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=labels, logits=logits)
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                        logits=logits)
 loss = tf.reduce_mean(cross_entropy)
 ```
 
@@ -221,7 +226,7 @@ and then:
 ```python
 adversarial_grad = tf.gradients(cross_entropy, inputs)
 ```
-Now `adversarial_grad` will be of the shape `[batch_size, input_dimensions]` or `[D, 784]` in our case, and contains
+Now <span class="mono">adversarial_grad</span> will be of the shape <span class="mono">[batch_size, input_dimensions]</span> or <span class="mono">[D, 784]</span> in our case, and contains
 
 $$
 \nabla_{x_i} L_i = \nabla_{x_i}
@@ -249,7 +254,7 @@ and from above, the gradient of the loss with respect to one input sample \\(x_i
 
 $$\nabla_{x_i} L_i = \nabla_{x_i} \left(-\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)\right)$$
 
-which is exactly what we have in our gradient vector of shape `[D, 784]`, with each row i containing the gradient of the loss for sample i with respect to only sample i.
+which is exactly what we have in our gradient vector of shape <span class="mono">[D, 784]</span>, with each row i containing the gradient of the loss for sample i with respect to only sample i.
 
 We can thus roll our own gradient descent using this gradient tensor as follows:
 
@@ -318,7 +323,7 @@ Lower levels of noise are still easy for us to read, but once you get above 0.5 
   </div>
 </div>
 
-Note that I didn't try very hard to get better performance out of these models. Each one is trained for a maximum of 50 epochs using the Adam algorithm for gradient descent back propagation (`AdamOptimizer` in Tensorflow) with an initial learning rate of $$1\mathrm{e}{-4}$$.
+Note that I didn't try very hard to get better performance out of these models. Each one is trained for a maximum of 50 epochs using the Adam algorithm for gradient descent back propagation (<span class="mono">AdamOptimizer</span> in Tensorflow) with an initial learning rate of $$1\mathrm{e}{-4}$$.
 
 Look again at the distorted inputs above with noise levels of 0.90. These are completely unreadable to the human eye, but the neural net still learns with 97.5% accuracy how to read numbers from these noisy inputs! Fascinating.
 
@@ -354,11 +359,11 @@ Test set performance and average adversarial target score for models with input 
 </div>
 
 
-Surprisingly, this very simple change to training has a profound effect on adversarial images - with very little performance hit, the average final score for our adversarial images drops precipitously. Input distortion with a standard deviation of 0.50 in the model ending with a fully-connected layer particularly stands out, since the test set accuracy doesn't decrease at all, yet the average adversarial image target score has dropped from 97% to 35%.
+Surprisingly, this very simple change to training has a profound effect on adversarial images - with very little performance hit, the average final score for our adversarial images drops precipitously. Input distortion with a standard deviation of 0.50 in the model ending with a fully-connected layer particularly stands out, since the test set accuracy doesn't decrease at all, yet the average adversarial image target score has dropped from 97% to 35%. Fully convolutional models with input distortion have a bit worse performance, but still do a solid job of thwarting adversarial examples compared to the plain models, and are also substantially smaller sized models than the ones ending with fully-connected layers.
 
 #### Going overboard with model permutations
 
-Once I automated the training and adversarial example generation, I went a bit overboard and made 97 different models with different combinations of distortion layers and different levels of distortion. The table below shows the test set accuracy and average adversarial target scores for all 97 models, with a noise limit of 0.2. I chose 0.2 noise limit for this table because there's a very nice performance spread. (At higher noise limits like 0.3-0.5, we can easily generate good adversarial examples for all models.) Note that higher test accuracy is good, and lower average adversarial target scores are also good. Some standouts are shown here, with the full results in [the Appendix](#full_results_0_20).
+Once I automated the training and adversarial example generation, I went a bit overboard and made 97 different models with different combinations of distortion layers and different levels of distortion. The table below shows the test set accuracy and average adversarial target scores for some of the better models, with a noise limit of 0.2. I chose 0.2 noise limit for this table because there's a very nice performance spread. (At higher noise limits like 0.3-0.5, we can easily generate good adversarial examples for all models.) Note that higher test accuracy is good, and lower average adversarial target scores are also good. Full results for all 97 models can be seen in [the Appendix](#full_results_0_20).
 
 <div id="results_0_20">
 <table class="results">
@@ -381,7 +386,7 @@ Some standout models from adversarial noise limit of 0.2.
   </div>
 </div>
 
-Following are some results from an adversarial noise limit of 0.05. The full table can be found in [the Appendix](#full_results_0_05), but there were a few standouts:
+Here are some results from a different run with an adversarial noise limit of 0.05. The full table can be found in [the Appendix](#full_results_0_05), but there were a few standouts:
 
 <div id="results_0_05">
 <table class="results">
@@ -404,14 +409,14 @@ Some standout models from adversarial noise limit of 0.05.
   </div>
 </div>
 
-These models are a bit more exotic than the ones from the higher noise limit. The first has distortion layers after the input and the fully-connected layer. The second has very light distortion layers after the input and both convolutional layers. The third is the same structure as the second, but with slightly higher distortion levels. And the fourth has a stronger distortion layer after the input and the first convolutional layer. As you can see, the first two have quite good test set performance while being extremely resilient to adversarial examples at this noise limit (0.05). The third and fourth are even more resilient to adversarial examples, but take a bit of a performance hit.
+Some of these models are a bit more exotic than just a simple input distortion. The first model in the 0.05 noise limit table has distortion layers after the input and the fully-connected layer. The next has very light distortion layers after the input and both convolutional layers. The third is the same structure as the second, but with slightly higher distortion levels. And the fourth has a stronger distortion layer after the input and the first convolutional layer. As you can see, the first two have quite good test set performance while being extremely resilient to adversarial examples at this noise limit (0.05). The third and fourth are even more resilient to adversarial examples, but take a bit of a performance hit.
 
-<a id="discussion" />
+<a id="discussion"></a>
 ### Discussion
 
 So what does it all mean? Is this simple technique really all that's needed to combat adversarial examples? And is that even a worthwhile goal?
 
-Well, first it's important to understand that while we can provide resilience against adversarial examples *on average*, that doesn't mean that the model is completely resilient to adversarial examples. If our goal is to just find one really good adversarial example, then we can usually do so (especially with our efficient gradient computations described above). For example, here are two that I found for the *input - d0.30 - conv1 - d0.30 - conv2 - d0.30 - fc - softmax* model from above, which had an average target score of zero in the initial run:
+Well, first it's important to understand that while we can provide resilience against adversarial examples *on average*, that doesn't mean that the model is completely resilient to adversarial examples. If our goal is to just find one really good adversarial example, then we can usually do so (especially with our efficient gradient computations described above). For example, here are two that I found at a 0.05 noise limit for the *input - d0.30 - conv1 - d0.30 - conv2 - d0.30 - fc - softmax* model from above, which had an average target score of zero in the initial run:
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/exotic_examples.png">
@@ -491,7 +496,7 @@ Some areas for future study are:
 
 ### Appendix
 
-<a id="full_results_0_20" />
+<a id="full_results_0_20"></a>
 
 Results for all models, with an adversarial noise limit of 0.02.
 
@@ -717,7 +722,7 @@ Results for all models, with an adversarial noise limit of 0.02.
   </tbody>
 </table>
 
-<a id="full_results_0_05" />
+<a id="full_results_0_05"></a>
 Here's another table showing results of all models, but this time with a noise limit of 0.05, which is the same limit as the figure at the top of the post. 0.05 is barely perceptible to us.
 
 #### By test set accuracy:
