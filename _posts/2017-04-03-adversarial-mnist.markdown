@@ -83,7 +83,8 @@ Rather than focusing on high-dimensional dot products, the way I like to think o
 
 Goodfellow et. al use the adversarial examples themselves in training as a way to get better ultimate model performance, but I wanted to ask a different question: **Can we change the structure of the neural net itself in order to thwart adversarial examples?**
 
-(Skip the math, code, and numerical results, and [take me straight to the discussion](#discussion).)
+(Skip the math, code, and numerical results, and [take me straight to the discussion](#discussion).)<br>
+(Skip all the techie stuff, and [take me straight to the neuroscience](#neuroscience).)
 
 ### Methodology
 
@@ -459,6 +460,7 @@ Let's take a look at another model from above: *input - d0.30 - conv1 - conv2 - 
 
 Thus, this model is extremely resilient to adversarial examples while also maintaining nearly the same model performance as the simple conv net without distortion layers!
 
+<a id="neuroscience"></a>
 #### Neuroscientific musings
 
 Adversarial examples also provide us with interesting insights into how visual processing in the human brain differs from that of convolutional neural nets. It should be clear by now that neural nets *do not "see" at all like humans*. I'm going to say that again, because it bears repeating: neural nets that classify or detect objects in images *do so in a way that is fundamentally different from humans*. The definition of adversarial examples used in the AI community usually refers to examples that humans can't distinguish, but that cause incorrect predictions by the neural net. So while humans see the number "3", or a panda, the neural net sees an "8", or a gibbon.
