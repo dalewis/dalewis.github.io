@@ -115,7 +115,7 @@ Backing up for a moment, what is a "multivariate Gaussian noise layer"? Well, th
   </div>
 </div>
 
-If we "sample" from the this distribution, we are choosing random numbers such that their distribution is the same as the normal distribution, i.e., clustered around the mean and then spreading out as you get farther from the center. We can extend this concept to multiple dimensions, which is what is meant by the [multivariate normal distribution](https://en.wikipedia.org/wiki/Multivariate_normal_distribution). All we need to know is the mean and variance (and by extension, standard deviation) for each dimension, and then we just choose a random number according to that distribution.
+If we "sample" from the distribution, we are choosing random numbers such that their distribution is the same as the normal distribution, i.e., clustered around the mean and then spreading out as you get farther from the center. We can extend this concept to multiple dimensions, which is what is meant by the [multivariate normal distribution](https://en.wikipedia.org/wiki/Multivariate_normal_distribution). All we need to know is the mean and variance (and by extension, standard deviation) for each dimension, and then we just choose a random number according to that distribution.
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/multivariate_normal.png"
