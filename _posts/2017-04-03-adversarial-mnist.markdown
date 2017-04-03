@@ -43,16 +43,6 @@ mathjax: true
     font-weight: 500;
   }
 
-  #fc_0_02_results table, #fc_fcn_0_02_results table,
-  #results_0_20 table, #results_0_05 table {
-    width: 615px;
-  }
-
-  #fc_0_02_results .tablecap, #fc_fcn_0_02_results .tablecap,
-  #results_0_20 .tablecap, #results_0_05 .tablecap {
-    width: 615px;
-  }
-
   #results_0_20 table, #results_0_05 table {
     width: 100%;
   }
