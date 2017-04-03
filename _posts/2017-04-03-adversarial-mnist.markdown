@@ -108,7 +108,7 @@ convolutional model (i.e., no fully connected layers).
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/mnist_models.png"
-   height="600px">
+   style="max-height: 600px;">
   <div class="thecap">
     A convolutional net ending with a fully-connected layer (left), and a fully convolutional neural net (right) for classifying MNIST images.
   </div>
@@ -118,7 +118,7 @@ The idea, then, is to modify the above simple models by adding an input distorti
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/distortion_layers.png"
-   height="800px">
+   style="max-height: 800px;">
   <div class="thecap">
     A conv net showing Gaussian distortion layers after input,
     conv1, conv2, and the final fully connected layer.
@@ -463,7 +463,7 @@ The noise in the adversarial examples now looks much more noticeable, and most h
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/brightness_constancy.jpg"
-   height="400px">
+   style="max-height:400px;">
   <div class="thecap">
     Example of optical illusion caused by lightness constancy in human visual system. But conv net don't care. Credit to: <a href="http://www.cns.nyu.edu/~david/courses/perception/lecturenotes/brightness-contrast/brightness-contrast.html">Professor David Heeger from NYU</a>.
   </div>
