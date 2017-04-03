@@ -417,6 +417,7 @@ Here are some results from a different run with an adversarial noise limit of 0.
     <tr><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - softmax</td><td>0.990300</td><td>0.000588</td></tr>
     <tr><td>input - d0.30 - conv1 - d0.30 - conv2 - d0.30 - fc - softmax</td><td>0.972900</td><td>0.000000</td></tr>
     <tr><td>input - d0.50 - conv1 - d0.50 - conv2 - fc - softmax</td><td>0.978800</td><td>0.000001</td></tr>
+    <tr><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - d0.10 - softmax</td><td>0.989400</td><td>0.000027</td></tr>
   </tbody>
 </table>
   <div class="tablecap">
@@ -424,7 +425,7 @@ Some standout models from adversarial noise limit of 0.05.
   </div>
 </div>
 
-Some of these models are a bit more exotic than just a simple input distortion. The first model in the 0.05 noise limit table has distortion layers after the input and the fully-connected layer. The next has very light distortion layers after the input and both convolutional layers. The third is the same structure as the second, but with slightly higher distortion levels. And the fourth has a stronger distortion layer after the input and the first convolutional layer. As you can see, the first two have quite good test set performance while being extremely resilient to adversarial examples at this noise limit (0.05). The third and fourth are even more resilient to adversarial examples, but take a bit of a performance hit.
+Some of these models are a bit more exotic than just a simple input distortion. The first model in the 0.05 noise limit table has distortion layers after the input and the fully-connected layer. The next has very light distortion layers after the input and both convolutional layers. The third is the same structure as the second, but with slightly higher distortion levels. The fourth has a stronger distortion layer after the input and the first convolutional layer. And the final model has a light distortion layer following every layer. As you can see, the first two as well as the final model have quite good test set performance while being extremely resilient to adversarial examples at this noise limit (0.05). The third and fourth are even more resilient to adversarial examples, but take a bit of a performance hit.
 
 <a id="discussion"></a>
 ### Discussion
@@ -773,7 +774,7 @@ Here's another table showing results of all models, but this time with a noise l
     <tr class="highlight"><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - softmax</td><td>0.990300</td><td>0.000588</td></tr>
     <tr><td>input - conv1 - d0.10 - conv2 - softmax</td><td>0.989700</td><td>0.018690</td></tr>
     <tr><td>input - d0.30 - conv1 - d0.30 - conv2 - fc - softmax</td><td>0.989500</td><td>0.000731</td></tr>
-    <tr><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - d0.10 - softmax</td><td>0.989400</td><td>0.000027</td></tr>
+    <tr class="highlight"><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - d0.10 - softmax</td><td>0.989400</td><td>0.000027</td></tr>
     <tr><td>input - conv1 - d0.10 - conv2 - d0.10 - fc - softmax</td><td>0.989400</td><td>0.009515</td></tr>
     <tr><td>input - conv1 - conv2 - softmax</td><td>0.988900</td><td>0.063591</td></tr>
     <tr><td>input - conv1 - d0.50 - conv2 - fc - softmax</td><td>0.988400</td><td>0.022035</td></tr>
@@ -866,7 +867,7 @@ Here's another table showing results of all models, but this time with a noise l
     <tr class="highlight"><td>input - d0.30 - conv1 - d0.30 - conv2 - d0.30 - fc - softmax</td><td>0.972900</td><td>0.000000</td></tr>
     <tr class="highlight"><td>input - d0.50 - conv1 - d0.50 - conv2 - fc - softmax</td><td>0.978800</td><td>0.000001</td></tr>
     <tr class="highlight"><td>input - d0.30 - conv1 - conv2 - fc - d0.30 - softmax</td><td>0.991200</td><td>0.000005</td></tr>
-    <tr><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - d0.10 - softmax</td><td>0.989400</td><td>0.000027</td></tr>
+    <tr class="highlight"><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - d0.10 - softmax</td><td>0.989400</td><td>0.000027</td></tr>
     <tr class="highlight"><td>input - d0.10 - conv1 - d0.10 - conv2 - d0.10 - fc - softmax</td><td>0.990300</td><td>0.000588</td></tr>
     <tr><td>input - d0.50 - conv1 - conv2 - fc - softmax</td><td>0.992100</td><td>0.000589</td></tr>
     <tr><td>input - d0.30 - conv1 - d0.30 - conv2 - fc - softmax</td><td>0.989500</td><td>0.000731</td></tr>
