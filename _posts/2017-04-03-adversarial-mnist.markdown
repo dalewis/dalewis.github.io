@@ -177,7 +177,8 @@ Sum = 1.0
 Remember that the loss for a single example is $$L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)$$, or $$-\log({softmax({f_{y_i}})})$$. The reason the loss is the negative log is apparent if we look at a graph:
 
 <div class="imgcap">
-  <img src="/assets/mnist_adv/lnx.png" height="300px">
+  <img src="/assets/mnist_adv/lnx.png"
+   style="max-height:300px">
   <div class="thecap">
   </div>
 </div>
