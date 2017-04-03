@@ -75,9 +75,9 @@ The grayscale MNIST handwritten digits dataset, while much smaller and simpler t
 
 ### Intro
 
-The idea of "tricking" conv nets is not new. Andrej Karpathy did a fantastic job of
-describing the problem [here](https://karpathy.github.io/2015/03/30/breaking-convnets/).
-(Also, I borrowed much of his blog structure and CSS, so Andrej, big thanks!!). And Goodfellow et. al were some of the first to initially describe the problem in detail in [Explaining and Harnessing Adversarial Examples](https://arxiv.org/abs/1412.6572). Basically, due to the linear nature of the high-dimensional dot products inherent to deep neural nets, imperceptibly small changes on multiple dimensions can add up to one large classification error.
+The idea of "tricking" convolutional neural nets is not new. These neural nets, which have shown amazing results for many different computer vision applications, are very susceptible to making certain types of mistakes. Goodfellow et. al were some of the first to initially describe the problem in detail in [Explaining and Harnessing Adversarial Examples](https://arxiv.org/abs/1412.6572). And Andrej Karpathy did a fantastic job of
+describing the issue [here](https://karpathy.github.io/2015/03/30/breaking-convnets/).
+(Also, I borrowed much of his blog structure and CSS, so Andrej, big thanks!!). Basically, due to the linear nature of the high-dimensional dot products inherent to deep neural nets, imperceptibly small changes on multiple dimensions can add up to one large mistake by the neural net.
 
 But the way I like to think of it is simpler - neural net image classifiers operate in an extremely high-dimensional space, but the divisions between classes are too "sharp" in that high-dimensional space, so it's easy to push the classifier away from the actual class and towards a wrong "adversarial" class. On the other hand, humans have a "fuzzier" classification model that is obviously much more resilient to these tiny changes, because our visual system "averages" them out. Below is a simple visualization for how to think about the "sharpness" of a classifier, with the image on the left showing a much "sharper" classifier than the image on the right.
 
