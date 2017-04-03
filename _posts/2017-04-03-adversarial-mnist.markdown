@@ -450,7 +450,7 @@ The implication of all this is that for this specific model, an "attacker" would
 
 Let's take a look at another model from above: *input - d0.30 - conv1 - conv2 - fc - d0.30 - softmax*, which had pretty stellar performance of 0.991200 while only allowing a barely positive average target score of 0.000005. Running the same test as above on 1000 random adversarial examples, we only successfully find four:
 
-<a id="exotic_examples_input_0_30_fc_0_30" />
+<a id="exotic_examples_input_0_30_fc_0_30"></a>
 <div class="imgcap">
   <img src="/assets/mnist_adv/exotic_examples_input_0.30_fc_0.30.png">
   <div class="thecap">
@@ -459,6 +459,14 @@ Let's take a look at another model from above: *input - d0.30 - conv1 - conv2 - 
 </div>
 
 Thus, this model is extremely resilient to adversarial examples while also maintaining nearly the same model performance as the simple conv net without distortion layers!
+
+#### Why does it work?
+
+The inclusion of the multivariate Gaussian noise layers appears to make the model resilient to adversarial examples while often having negligible effect on model performance, but why does this technique work? Some hints may be gleaned from considering two other popular techniques used to improve deep neural nets - input distortions such as random cropping, flipping, brightness/contrast changes, etc (of which this method is an extension), and dropout.
+
+Input distortions have been used for awhile to artificially increase the size of datasets for training convolutional neural nets without overfitting. The more parameters a model has, the more data it needs to effectively train without overfitting and generalize to unseen data. So for awhile, AI researchers have been applying simple image transformations in order to accomplish this. The idea is that by providing slightly transformed versions of the same image, the net will learn the important things that make a school bus a school bus or the number 4 the number 4, but ignore the differences in brightness, contrast, orientation, and position between images, since these will vary from example to example. The multivariate Gaussian distortion layers described in this paper are very similar to input distortion layers, except we're just randomly distorting the actual pixel values independently of one another. The idea is the same, though - the neural net should learn a distribution surrounding the real class, and thus generalize from class examples seen in the training data to class examples in the test data.
+
+Dropout was another big innovation when it came onto the deep learning scene. The idea behind dropout was just to prevent overfitting by randomly zeroing out some neurons during training (usually 25% or 50% of the neurons following a conv/pooling layer), and it's proven to be a simple, efficient way of improving model quality. Our distortion layers are acting in a similar way, except rather than creating an average by *removing* activations, we're creating an average by *distorting* the activations. And just like dropout, our multivariate normal distortion layers are very efficient, running in O(k) per layer, where k is the number of dimensions in the tensor that is being distorted (O(k) for sampling from the distribution on \\(R^k\\), and O(k) for adding the noise to the activations).
 
 <a id="neuroscience"></a>
 #### Neuroscientific musings
@@ -469,11 +477,11 @@ One of the reasons for this difference is that the human visual system is far mo
 
 Another important difference between the human visual system and convolutional neural nets has to do with perceptual constancy. When considering the *difference* between colors, neural nets don't see any difference between the difference of two pixels with values 0.10 and 0.20 or 0.70 and 0.80 - both are a numerical difference of 0.10. But humans absolutely see a difference. Look again at the adversarial examples [above](#exotic_examples_input_0_30_fc_0_30) for the *input - d0.30 - conv1 - conv2 - fc - d0.30 - softmax* model. The noise is hard to perceive in the adversarial examples unless you really look closely (although it also depends on the display characteristics of your device). But now take a look at what happens if we invert the images:
 
-<a id="exotic_examples_input_0_30_fc_0_30" />
+<a id="exotic_examples_input_0_30_fc_0_30"></a>
 <div class="imgcap">
   <img src="/assets/mnist_adv/exotic_examples_input_0.30_fc_0.30_inverted.png">
   <div class="thecap">
-    Adversarial examples found for a conv net with distortion after the input layer and final fully-connected layer.
+    Adversarial examples found for an <em>input - d0.30 - conv1 - conv2 - fc - d0.30 - softmax</em> convolutional neural net.
   </div>
 </div>
 
