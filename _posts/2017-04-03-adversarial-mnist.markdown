@@ -75,15 +75,15 @@ mathjax: true
 
 ### Abstract
 
-The grayscale MNIST handwritten digits dataset, while much smaller and simpler than ImageNet, is still very susceptiple to adversarial images. Adding multivariate Gaussian noise layers into the neural net at various levels is one way of making it more difficult to craft adversarial images, often with negligible impact on model performance.
+The grayscale MNIST handwritten digits dataset, while much smaller and simpler than ImageNet, is still very susceptible to adversarial examples. Adding multivariate Gaussian noise layers into the neural net at various layers is one way of making it more difficult to craft adversarial examples, often with negligible impact on model performance.
 
 ### Intro
 
 The idea of "tricking" convolutional neural nets is not new. These neural nets, which have shown amazing results for many different computer vision applications, are very susceptible to making certain types of mistakes. Goodfellow et. al were some of the first to initially describe the problem in detail in [Explaining and Harnessing Adversarial Examples](https://arxiv.org/abs/1412.6572). And Andrej Karpathy did a fantastic job of
 describing the issue [here](https://karpathy.github.io/2015/03/30/breaking-convnets/).
-(Also, I borrowed much of his blog structure and CSS, so Andrej, big thanks!!). Basically, due to the linear nature of the high-dimensional dot products inherent to deep neural nets, imperceptibly small changes on multiple dimensions can add up to one large mistake by the neural net.
+(Also, I borrowed much of his blog structure and CSS, so Andrej, big thanks!!). Essentially, imperceptibly small changes on multiple pixels can add up to one large mistake by the neural net, with the result being that it misclassifies a bus as an ostrich, or the number "3" as the number "6".
 
-But the way I like to think of it is simpler - neural net image classifiers operate in an extremely high-dimensional space, but the divisions between classes are too "sharp" in that high-dimensional space, so it's easy to push the classifier away from the actual class and towards a wrong "adversarial" class. On the other hand, humans have a "fuzzier" classification model that is obviously much more resilient to these tiny changes, because our visual system "averages" them out. Below is a simple visualization for how to think about the "sharpness" of a classifier, with the image on the left showing a much "sharper" classifier than the image on the right.
+Rather than focusing on high-dimensional dot products, the way I like to think of this problem is simpler - neural net image classifiers operate in an extremely high-dimensional space, but the divisions between classes are too "sharp" in that high-dimensional space, so it's easy to push the classifier away from the actual class and towards a wrong "adversarial" class. On the other hand, humans have a "fuzzier" classification model that is obviously much more resilient to these tiny changes, because our visual system "averages" them out. Below is a simple visualization for how to think about the "sharpness" of a classifier, with the image on the left showing a much "sharper" classifier than the image on the right.
 
 <div class="imgcap">
   <img src="/assets/mnist_adv/classification_visualization.png">
