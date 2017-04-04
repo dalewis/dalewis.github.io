@@ -499,6 +499,10 @@ Currently, neural nets used for computer vision don't even attempt to model neur
 
 Studying how these highly performant neural nets perform and fail provides us with valuable insight into the differences between the human visual system and the mathematical model of it that we are striving to create.
 
+### Conclusions
+
+Adding multivariate Gaussian distortion layers throughout a convolutional neural net is an efficient, easy way to thwart adversarial images in convolutional neural nets, often with negligible impact on model performance. As we have shown, for certain model structures containing distortion layers, models retain performance but very effectively increase the difficulty of generating adversarial examples at a given noise limit. The use of such distortion layers is potentially a very simple way to make computer vision models more resilient to the creation of adversarial examples.
+
 ### Future work
 
 This paper looked at the effect on adversarial example generation of adding multivariate Gaussian noise at different levels of a convolutional neural net. This sort of distortion of the inputs and the different level activations can have profound effects on the resilience of a convolutional neural net to adversarial examples.
