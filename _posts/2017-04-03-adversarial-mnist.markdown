@@ -438,7 +438,7 @@ Well, first it's important to understand that while we can provide resilience ag
 <div class="imgcap">
   <img src="/assets/mnist_adv/exotic_examples.png">
   <div class="thecap">
-    A very strong adversarial example and a reasonably strong adversarial example found for a seemingly impervious model.
+    Adversarial examples found for a seemingly impervious model. Noise limit 0.05.
   </div>
 </div>
 
@@ -454,7 +454,7 @@ Let's take a look at another model from above: *input - d0.30 - conv1 - conv2 - 
 <div class="imgcap">
   <img src="/assets/mnist_adv/exotic_examples_input_0.30_fc_0.30.png">
   <div class="thecap">
-    Adversarial examples found for a conv net with distortion after the input layer and final fully-connected layer.
+    Adversarial examples found for a conv net with distortion after the input layer and final fully-connected layer. Noise limit 0.05.
   </div>
 </div>
 
